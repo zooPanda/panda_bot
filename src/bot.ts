@@ -70,9 +70,30 @@ async function init() {
         .catch(err => {
             console.log(`设置命令失败:${err.message}`);
         })
+
+    let setting = getSetting()
+    if (setting.reboot) {
+        await bot.sendMessage(process.env.HOSTID, '重启完毕.')
+        setting.reboot = false
+        fs.writeFileSync("bot.json", JSON.stringify(setting), { encoding: 'utf-8' })
+    }
 }
 
-
+export function getSetting() {
+    try {
+        return JSON.parse(fs.readFileSync("bot.json", { encoding: 'utf-8' }))
+    } catch (error) {
+        return null
+    }
+}
+export function writeSetting(setting) {
+    try {
+        fs.writeFileSync("bot.json", JSON.stringify(setting), { encoding: 'utf-8' })
+        return true
+    } catch (error) {
+        return null
+    }
+}
 
 export class Command {
     reg: RegExp

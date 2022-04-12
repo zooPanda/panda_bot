@@ -12,7 +12,6 @@ try {
         fs.writeFileSync("tigang.json", JSON.stringify({}), { encoding: 'utf-8' })
     }
 }
-
 export const command = new Command(
     /^\/tigang/,
     '\/tigang 提肛小助手',
@@ -85,8 +84,8 @@ async function handler(msg: Message) {
                     }]]
                 }
             }).then(res => {
-                deleteMessage(msg, 5)
-                deleteMessage(res, 5)
+                deleteMessage(msg, 15)
+                deleteMessage(res, 15)
             })
         } else {
             await bot.sendMessage(msg.from?.id, `请选择你所在的时区,我将会在每天的15点通过私聊提醒你多喝水,做提肛.`, {
@@ -102,8 +101,8 @@ async function handler(msg: Message) {
                     }]]
                 }
             }).then(res => {
-                deleteMessage(res, 10)
-                deleteMessage(msg, 10)
+                deleteMessage(res, 15)
+                deleteMessage(msg, 15)
             })
         }
     }
