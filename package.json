@@ -15,6 +15,7 @@
     "@types/node-telegram-bot-api": "^0.56.2"
   },
   "scripts": {
-    "start": "npm install yarn typescript pm2 -g &&tsc && pm2 start ecosystem.config.js"
+    "start": "npm install yarn typescript pm2 -g &&tsc && pm2 start ecosystem.config.js",
+    "dev": "tsc && pm2 start dev_ecosystem.config.js"
   }
 }

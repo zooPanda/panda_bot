@@ -21,14 +21,12 @@ function updateSchedule() {
             })
         })
     }
-
 }
 
 export const command = new Command(
     /^\/tigang/,
     '\/tigang 提肛小助手',
     async msg => {
-        const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
         const inline_keyboard = [
             [
                 {
