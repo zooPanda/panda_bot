@@ -88,7 +88,7 @@ export const command = new Command(
                     reply_markup: {
                         inline_keyboard
                     }
-                })
+                }).catch(err => { })
                 await bot.sendMessage(msg.chat.id, `请通过私聊进行设置.(若是第一次使用,请先私聊并发送/start)`, {
                     reply_markup: {
                         inline_keyboard: [[{
