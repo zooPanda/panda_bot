@@ -117,16 +117,15 @@ async function cb(query: CallbackQuery) {
             switch (args[1]) {
                 case 'setting':
                     if (String(query.from.id) === args[2]) {
-                        notisyList[args[3]] = args[4]
-                        notisyList = notisyList.push(args[3])
+                        notisyList = [...notisyList, args[3]]
                         fs.writeFileSync("tigang.json", JSON.stringify(notisyList), { encoding: 'utf-8' })
                         let reply = await bot.sendMessage(query.from.id, '好的,我将会准时提醒你的.')
+                        deleteMessage(query.message, 2)
                         deleteMessage(reply, 5)
                     }
                     break;
                 case 'cancel':
                     if (String(query.from.id) === args[2]) {
-                        delete notisyList[args[3]]
                         notisyList = notisyList.filter(item => item !== args[3])
                         fs.writeFileSync("tigang.json", JSON.stringify(notisyList), { encoding: 'utf-8' })
                         let reply = await bot.sendMessage(query.from.id, '没有我的提醒,也要记得每天坚持提肛,多喝热水,确保痔疮远离你哟.')
