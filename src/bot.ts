@@ -21,7 +21,7 @@ async function init() {
     for (const vo of fs.readdirSync(commandDir)) {
         let _path = path.parse(vo)
         // 如果文件后缀不是js则跳过
-        if (_path.ext !== '.js') {
+        if (_path.ext !== '.js' && process.env.DEV !== 'true') {
             continue;
         }
         // 确保不是文件夹
@@ -126,7 +126,7 @@ export class Command {
  * @param msg 需要删除的消息
  * @param times 延迟 单位:s
  */
-export const deleteMessage = (msg: Message, times: number) => {
+export const deleteMessage = (msg: Message, times: number = 10) => {
     return setTimeout(async () => {
         try {
             await bot.deleteMessage(msg.chat.id, `${msg.message_id}`)

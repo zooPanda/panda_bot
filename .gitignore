@@ -2,4 +2,5 @@ node_modules/
 dist/
 .env
 tigang.json
+reminder.json
 dev_ecosystem.config.js
