@@ -30,7 +30,7 @@ export const command = new Command(
 function updateSchedule() {
     scheduleJob({ hour: 10, minute: 30 }, async () => {
         const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of Object.keys(notisyList)) {
+        for (const _vo of notisyList) {
             await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
                 caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n起来走动走动,让肚子为午饭腾点儿位置.'
             })
@@ -38,7 +38,7 @@ function updateSchedule() {
     })
     scheduleJob({ hour: 15 }, async () => {
         const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of Object.keys(notisyList)) {
+        for (const _vo of notisyList) {
             await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
                 caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n三点了,起身走动下,喝杯温水休息一会儿.'
             })
@@ -46,7 +46,7 @@ function updateSchedule() {
     })
     scheduleJob({ hour: 21, minute: 30 }, async () => {
         const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of Object.keys(notisyList)) {
+        for (const _vo of notisyList) {
             await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
                 caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n躺在床上也不许偷懒,跟着节奏夹紧~~放松~~夹紧~~放松~~.'
             })
