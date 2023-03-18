@@ -3,9 +3,18 @@ import fs from "fs"
 //@ts-ignore
 import { scheduleJob } from "node-schedule"
 import { CallbackQuery, Message } from "node-telegram-bot-api";
+import moment from 'moment-timezone'
 
+moment.tz.setDefault('Asia/Shanghai');
 
-
+/*  bot.on('message', async (msg) => {
+    // 判断消息是否是文件类型,显示文件信息
+    if (msg.document) {
+      const fileId = msg.document.file_id;
+      const fileInfo = await bot.getFile(fileId);
+      console.log(fileInfo);
+    }
+}); */
 
 try {
     fs.readFileSync("tigang.json", { encoding: 'utf-8' })
@@ -28,30 +37,27 @@ export const command = new Command(
 )
 
 function updateSchedule() {
-    scheduleJob({ hour: 10, minute: 30 }, async () => {
-        const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of notisyList) {
-            await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
-                caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n起来走动走动,让肚子为午饭腾点儿位置.'
-            })
-        }
-    })
-    scheduleJob({ hour: 15 }, async () => {
-        const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of notisyList) {
-            await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
-                caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n三点了,起身走动下,喝杯温水休息一会儿.'
-            })
-        }
-    })
-    scheduleJob({ hour: 21, minute: 30 }, async () => {
-        const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
-        for (const _vo of notisyList) {
-            await bot.sendVideo(_vo, 'BAACAgEAAxkBAAMkYlUpaHYyuyPyeODLy3YZR8V0iMkAAlwCAAKYnwhGPbbdsQinJ8sjBA', {
-                caption: '提肛小助手提醒您:每日提肛,远离痔疮.\n躺在床上也不许偷懒,跟着节奏夹紧~~放松~~夹紧~~放松~~.'
-            })
-        }
-    })
+    const taskTimes = [
+        { hour: 10, minute: 30, type: '提肛小助手提醒您:每日提肛,远离痔疮.\n起来走动走动,让肚子为午饭腾点儿位置.' },
+        { hour: 15, minute: 0, type: '提肛小助手提醒您:每日提肛,远离痔疮.\n三点了,起身走动下,喝杯温水休息一会儿.' },
+        { hour: 21, minute: 30, type: '提肛小助手提醒您:每日提肛,远离痔疮.\n躺在床上也不许偷懒,跟着节奏夹紧~~放松~~夹紧~~放松~~.' }
+    ];
+    // 创建定时任务
+    for (const taskTime of taskTimes) {
+        let utcTime = moment().clone().startOf('day').set({ hours: taskTime.hour, minutes: taskTime.minute }).utc().toObject();
+        let Type = taskTime.type
+
+        scheduleJob({ hour: utcTime.hours, minute: utcTime.minutes }, async () => {
+            const notisyList = JSON.parse(fs.readFileSync("tigang.json", { encoding: 'utf-8' }))
+            for (const _vo of notisyList) {
+                await bot.sendVideo(_vo, 'CgACAgUAAxkBAAIJzWQAAbb54maCOudl2hmFH_unI4iLrwACQQkAAvs8CVTTsDD-yP9Dly4E', {
+                    caption: Type
+                }).then(res => {
+                    deleteMessage(res, 600)
+                })
+            }
+        })
+    }
 }
 async function handler(msg: Message) {
 

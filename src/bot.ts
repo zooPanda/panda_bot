@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 import { spawn } from "child_process";
 
-
 // 实例化Bot
 const bot = new TelegramBot(process.env.BOTTOKEN, { polling: true })
 bot.getMe().then(res => {
